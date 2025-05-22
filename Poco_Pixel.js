@@ -1,6 +1,7 @@
 let imageUploaded = false;
 const encoded = encodeURIComponent("myData");
 const url = `${location.origin}/view.html?data=${encoded}`;
+
 document.getElementById("pageLink").textContent = url;
 
 function moveImg() {
