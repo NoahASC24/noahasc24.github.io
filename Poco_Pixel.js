@@ -83,7 +83,6 @@ function showImage() {
     if (imageData) {
         userImage.src = imageData;
         imageUploaded = true;
-        // Don't remove from localStorage yet - keep it for subsequent loads
     }
 }
 
@@ -92,8 +91,7 @@ function showQuestions() {
     const ansContainer = document.getElementById("ans-container");
     
     if (!ccContainer || !ansContainer) return;
-    
-    // Make both containers visible
+
     ccContainer.style.opacity = "1";
     ccContainer.style.display = "flex";
     ccContainer.style.flexDirection = "column";
@@ -104,7 +102,6 @@ function showQuestions() {
     ansContainer.style.flexDirection = "column";
     ansContainer.style.alignItems = "flex-start";
     
-    // Make all question elements visible
     const ccElements = document.querySelectorAll('.cc');
     
     ccElements.forEach(element => {
@@ -138,7 +135,6 @@ function showQuestions() {
         }
     });
     
-    // For answer elements, make them visible but clear their values
     const ansElements = document.querySelectorAll('.ans');
     
     ansElements.forEach(element => {
@@ -146,7 +142,6 @@ function showQuestions() {
         element.style.display = "block";
         element.style.zIndex = "4";
         
-        // Empty the input field
         const input = element.querySelector('input');
         if (input) {
             input.style.background = "transparent";
@@ -158,7 +153,6 @@ function showQuestions() {
             input.style.color = "white";
             input.style.boxSizing = "border-box";
             input.style.transform = "translateX(50%)";
-            // Store the original value as a data attribute
             if (!input.hasAttribute('data-answer')) {
                 input.setAttribute('data-answer', input.value);
             }
@@ -242,10 +236,6 @@ function createBoxes() {
             fadeIn(pieceCanvas, 1000, delay, () => {
                 piecesFadedIn++;
                 if (piecesFadedIn === totalPieces) {
-                    const link = document.getElementById("pageLink");
-                    const shareText = document.getElementById("sharePrompt")
-                    shareText.style.opacity = 1;
-                    link.style.opacity = 1;
                     setTimeout(addBg, 1000);
                     setTimeout(() => fadeOutAllPieces(1000), 1500);
                 }
@@ -260,7 +250,6 @@ function revealPanel(index) {
         overlays[index].style.opacity = '0';
         overlays[index].style.zIndex = "4";
         
-        // Also update the revealed state in localStorage
         const savedRevealedState = localStorage.getItem('revealedState');
         if (savedRevealedState) {
             try {
@@ -280,13 +269,11 @@ function splitImage(img) {
     imageUploaded = true;
     const cols = 5;
     const rows = 5;
-    const borderWidth = 1; // Border width
+    const borderWidth = 1;
     
-    // Total available size for the puzzle
     const totalWidth = 300;
     const totalHeight = 300;
-    
-    // Create and set up the canvas for the original image
+
     const canvas = document.getElementById("canvas");
     if (!canvas) return;
     
@@ -295,7 +282,6 @@ function splitImage(img) {
     canvas.width = totalWidth;
     canvas.height = totalHeight;
     
-    // Get the image from the proper source
     let sourceImg;
     if (img && img.tagName === 'IMG') {
         sourceImg = img;
@@ -306,14 +292,13 @@ function splitImage(img) {
     
     ctx.drawImage(sourceImg, 0, 0, totalWidth, totalHeight);
 
-    // Set up the container for all pieces
     const piecesContainer = document.getElementById("mini-pieces-container");
     if (!piecesContainer) return;
     
     piecesContainer.innerHTML = "";
     piecesContainer.style.position = "absolute";
     piecesContainer.style.top = "32%";
-    piecesContainer.style.left = "50%"; // Center exactly
+    piecesContainer.style.left = "50%";
     piecesContainer.style.width = totalWidth + "px";
     piecesContainer.style.height = totalHeight + "px";
     piecesContainer.style.transform = "translate(-50%, -50%)";
@@ -322,28 +307,22 @@ function splitImage(img) {
     piecesContainer.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
     piecesContainer.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
     piecesContainer.style.gap = `${borderWidth}px`;
-    piecesContainer.style.backgroundColor = "white"; // Color for the borders/gaps
+    piecesContainer.style.backgroundColor = "white";
     piecesContainer.style.padding = "0";
     piecesContainer.style.boxSizing = "border-box";
-    // Add transition for the convergence effect
     piecesContainer.style.transition = "gap 1.5s ease";
-    
-    // Count the number of CCs (questions) to determine how many pieces to cover
+
     const ccDivs = document.querySelectorAll('.cc');
     const totalQuestions = Math.max(1, ccDivs.length);
     const totalPieces = cols * rows;
     
-    // Store all pieces in this array for revealing later
     let allPieces = [];
 
-    // Create a new revealed state array - all start as hidden (false)
     const revealedState = new Array(totalPieces).fill(false);
     localStorage.setItem('revealedState', JSON.stringify(revealedState));
     
-    // Create pieces
     for (let y = 0; y < rows; y++) {
         for (let x = 0; x < cols; x++) {
-            // Create wrapper for each piece
             const pieceWrapper = document.createElement("div");
             pieceWrapper.className = "piece-wrap";
             pieceWrapper.style.position = "relative";
@@ -351,15 +330,12 @@ function splitImage(img) {
             pieceWrapper.style.width = "100%";
             pieceWrapper.style.height = "100%";
             pieceWrapper.style.boxSizing = "border-box";
-            
-            // Calculate source coordinates for the image slice
-            // These calculations ensure we get the right portion of the image
+
             const sourceX = Math.round(x * (totalWidth / cols));
             const sourceY = Math.round(y * (totalHeight / rows));
             const sourceWidth = Math.round((x + 1) * (totalWidth / cols) - sourceX);
             const sourceHeight = Math.round((y + 1) * (totalHeight / rows) - sourceY);
             
-            // Create the canvas for the piece
             const pieceCanvas = document.createElement("canvas");
             pieceCanvas.width = sourceWidth;
             pieceCanvas.height = sourceHeight;
@@ -370,17 +346,15 @@ function splitImage(img) {
             pieceCanvas.style.height = "100%";
             pieceCanvas.style.zIndex = "3";
             
-            // Draw the image slice onto the piece canvas
             const pieceCtx = pieceCanvas.getContext("2d");
             pieceCtx.drawImage(
                 canvas,
-                sourceX, sourceY,           // Source X, Y
-                sourceWidth, sourceHeight,   // Source width, height
-                0, 0,                       // Destination X, Y
-                sourceWidth, sourceHeight    // Destination width, height
+                sourceX, sourceY,
+                sourceWidth, sourceHeight,
+                0, 0,
+                sourceWidth, sourceHeight
             );
             
-            // Create the black overlay (initially visible/opaque)
             const blackOverlay = document.createElement("div");
             blackOverlay.className = "black-overlay";
             blackOverlay.style.position = "absolute";
@@ -389,16 +363,14 @@ function splitImage(img) {
             blackOverlay.style.width = "100%";
             blackOverlay.style.height = "100%";
             blackOverlay.style.backgroundColor = "black";
-            blackOverlay.style.opacity = "1"; // Start as hidden (black)
+            blackOverlay.style.opacity = "1";
             blackOverlay.style.transition = "opacity 1s ease";
             blackOverlay.style.zIndex = "10";
-            
-            // Add pieces to wrapper and wrapper to container
+    
             pieceWrapper.appendChild(pieceCanvas);
             pieceWrapper.appendChild(blackOverlay);
             piecesContainer.appendChild(pieceWrapper);
-            
-            // Store reference to this piece for revealing later
+
             allPieces.push({
                 wrapper: pieceWrapper,
                 canvas: pieceCanvas,
@@ -408,7 +380,6 @@ function splitImage(img) {
         }
     }
     
-    // Setup event listeners to check answers and reveal pieces
     setupAnswerListeners(allPieces, totalQuestions);
 }
 
@@ -419,9 +390,7 @@ function convergeImage() {
 
     piecesContainer.style.boxShadow = "0 0 20px 5px rgba(255, 255, 255, 0.8)";
     
-    // After a short delay, remove the gap to make pieces converge
     setTimeout(() => {
-        // Properly iterate through all pieces to remove borders
         for (let i = 0; i < pieces.length; i++) {
             pieces[i].style.border = "none";
         }
@@ -434,7 +403,6 @@ function convergeImage() {
 }
 
 function showCongratulations() {
-    // Create a congratulations message element
     const congrats = document.createElement("div");
     congrats.className = "congratulations";
     congrats.style.position = "absolute";
@@ -451,17 +419,13 @@ function showCongratulations() {
     congrats.style.textShadow = "0 0 10px rgba(255, 255, 255, 0.8)";
     congrats.innerText = "Puzzle Complete!";
     
-    // Add it to the document
     document.body.appendChild(congrats);
     
-    // Fade it in after a short delay
     setTimeout(() => {
         congrats.style.opacity = "1";
         
-        // Fade it out after a few seconds
         setTimeout(() => {
             congrats.style.opacity = "0";
-            // Remove it after it fades out
             setTimeout(() => congrats.remove(), 1000);
         }, 3000);
     }, 500);
@@ -473,7 +437,6 @@ function checkAllAnswersCorrect() {
     
     if (!ansInputs.length || !ccInputs.length) return false;
     
-    // Count total questions and correct answers
     let totalQuestions = ccInputs.length;
     let correctAnswers = 0;
     
@@ -494,19 +457,15 @@ function checkAllAnswersCorrect() {
 function setupAnswerListeners(allPieces, totalQuestions) {
     const totalPieces = allPieces.length;
     
-    // Create a randomly shuffled array of piece indices
     let pieceIndices = Array.from({ length: totalPieces }, (_, i) => i);
     shuffleArray(pieceIndices);
     
-    // Calculate how many pieces to reveal per correct answer
     const piecesPerQuestion = Math.ceil(totalPieces / totalQuestions);
     
-    // Listen to all answer inputs
     const ansInputs = document.querySelectorAll('.ans input');
     const ccInputs = document.querySelectorAll('.cc input');
     
     ansInputs.forEach((input, index) => {
-        // Store the expected answer as a data attribute if not already set
         const questionInput = ccInputs[index];
         if (questionInput && !input.hasAttribute('data-answer')) {
             input.setAttribute('data-answer', questionInput.value.trim().toLowerCase());
@@ -514,37 +473,29 @@ function setupAnswerListeners(allPieces, totalQuestions) {
         
         input.addEventListener('input', function() {
             const expectedAnswer = this.getAttribute('data-answer') || 
-                                  (questionInput ? questionInput.value.trim().toLowerCase() : '');
+            (questionInput ? questionInput.value.trim().toLowerCase() : '');
             
-            // If answer matches question text
             if (expectedAnswer && this.value.trim().toLowerCase() === expectedAnswer) {
-                // Reveal the correct answer
                 this.value = expectedAnswer;
                 
-                // Determine which pieces to reveal based on question index
                 const startIdx = index * piecesPerQuestion;
                 const endIdx = Math.min(startIdx + piecesPerQuestion, totalPieces);
                 
-                // Reveal the pieces in random order
                 for (let i = startIdx; i < endIdx; i++) {
                     if (i < pieceIndices.length) {
                         const randomPieceIdx = pieceIndices[i];
                         if (randomPieceIdx < allPieces.length && allPieces[randomPieceIdx].overlay) {
                             allPieces[randomPieceIdx].overlay.style.opacity = "0";
                             
-                            // Update revealed state in localStorage
                             updateRevealedState(randomPieceIdx, true);
                         }
                     }
                 }
                 
-                // Mark this answer as correct
                 this.classList.add('correct');
                 this.disabled = true;
-                
-                // Check if all answers are correct
+
                 if (checkAllAnswersCorrect()) {
-                    // If all correct, converge the image
                     convergeImage();
                 }
             }
@@ -566,38 +517,31 @@ function checkAllSavedAnswers() {
     
     if (!ansInputs.length || !ccInputs.length) return;
     
-    // Count the number of questions
     const totalQuestions = ccInputs.length;
-    const totalPieces = 25; // 5x5 grid
+    const totalPieces = 25;
     const piecesPerQuestion = Math.ceil(totalPieces / totalQuestions);
     
-    // Create a randomly shuffled array of piece indices
     let pieceIndices = Array.from({ length: totalPieces }, (_, i) => i);
     shuffleArray(pieceIndices);
     
     let allCorrect = true;
-    
-    // Check each answer
+
     ansInputs.forEach((input, index) => {
         if (index < ccInputs.length) {
             const questionInput = ccInputs[index];
             const expectedAnswer = input.getAttribute('data-answer') || 
-                                  (questionInput ? questionInput.value.trim().toLowerCase() : '');
+            (questionInput ? questionInput.value.trim().toLowerCase() : '');
             
-            // If answer matches expected answer
             if (expectedAnswer && input.value.trim().toLowerCase() === expectedAnswer) {
-                // Determine which pieces to reveal
                 const startIdx = index * piecesPerQuestion;
                 const endIdx = Math.min(startIdx + piecesPerQuestion, totalPieces);
                 
-                // Reveal the pieces in random order
                 for (let i = startIdx; i < endIdx; i++) {
                     if (i < pieceIndices.length) {
                         revealPanel(pieceIndices[i]);
                     }
                 }
                 
-                // Mark this answer as correct
                 input.classList.add('correct');
                 input.disabled = true;
             } else {
@@ -606,7 +550,6 @@ function checkAllSavedAnswers() {
         }
     });
     
-    // If all answers are correct, converge the image
     if (allCorrect && ansInputs.length > 0) {
         convergeImage();
     }
@@ -618,6 +561,10 @@ function loadSavedState() {
     console.log("Loading saved state...");
     const savedCcData = localStorage.getItem('ccData');
     const savedAnsData = localStorage.getItem('ansData');
+    const link = document.getElementById("pageLink");
+    const shareText = document.getElementById("sharePrompt")
+    shareText.style.opacity = 1;
+    link.style.opacity = 1;
     
     if (savedCcData && savedAnsData) {
         try {
@@ -630,22 +577,18 @@ function loadSavedState() {
             }
             
             if (ansContainer) {
-                // Load answer HTML structure but clear the values
                 ansContainer.innerHTML = JSON.parse(savedAnsData).join('');
                 console.log("Answers loaded:", ansContainer.children.length);
                 
-                // Store answer values as data attributes and clear inputs
                 const ansInputs = ansContainer.querySelectorAll('input');
                 ansInputs.forEach(input => {
                     input.setAttribute('data-answer', input.value.trim().toLowerCase());
-                    input.value = ''; // Clear the input
+                    input.value = '';
                 });
             }
             
-            // Make sure questions and answers are visible
             showQuestions();
             
-            // Load the uploaded image if available
             const imageData = localStorage.getItem("uploadedImage");
             if (imageData) {
                 imageUploaded = true;
@@ -654,9 +597,7 @@ function loadSavedState() {
                     userImage.src = imageData;
                     console.log("Image loaded");
                     
-                    // Wait for the image to load before checking answers
                     userImage.onload = function() {
-                        // Create the puzzle pieces
                         splitImage(userImage);
                     };
                 }
@@ -700,7 +641,6 @@ function applyRevealedState() {
                 }
             });
             
-            // If all pieces were already revealed, check if we should converge the image
             if (allRevealed && overlays.length > 0) {
                     setTimeout(() => {
                         if (checkAllAnswersCorrect()) {
@@ -719,10 +659,8 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("DOM loaded");
     const img = document.getElementById("logo");
     
-    // Load the saved state immediately
     setTimeout(loadSavedState, 8000)
     
-    // Create background animation
     if (img) {
         if (!img.complete || img.naturalWidth === 0) {
             img.onload = createBoxes;
