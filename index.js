@@ -354,7 +354,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 localStorage.setItem('ccData', JSON.stringify(ccData));
                 localStorage.setItem('ansData', JSON.stringify(ansData));
                 localStorage.setItem('revealedState', JSON.stringify(revealedState));
-                window.location.href = "setup.html";
+                window.location.href = "Poco_Pixel.html";
             }
         });
     }
