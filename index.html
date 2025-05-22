@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poco_Pixel</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <img id="logo" src="Images/h (49).png" alt="logo">
+    <img id="background" src="Images/h (50).png" style="opacity: 0;" alt="background">
+    <img id="logoimg" src="Images/image-removebg-preview (3).png" style="opacity: 0;" alt="logoimg">
+    <canvas id="canvas"></canvas>
+    <div id="pieces-container"></div>
+    <div id="mini-pieces-container"></div>
+    <input type="file" id="example" style="display: none;" accept="image/*">
+    <label for="example">
+        <button id="exampleButton" style="opacity: 0;" disabled>+</button>
+    </label>
+    <button id="create" style="opacity: 0;">Empieza</button>
+    <div id="imgStatus" style="text-align: center; opacity: 0;">    
+      <p>
+        ¡Necesitas una Foto!
+      </p>
+  </div>
+    <div id="clone-container" style="opacity: 0; pointer-events: none;">
+        <button id="append" style="opacity: 0; top: 60%;">+</button>
+        <button id="finish" style="opacity: 0; top: 80%;">CREAR</button>
+        <div id="cc0" class="cc">
+          <div id="group">
+            <div class="input-wrapper">
+              <input required type="text" class="input" />
+              <label class="text">¿Pregunta?</label>
+              <span class="highlight"></span>
+              <span class="bar"></span>
+            </div>
+          </div>
+        </div>
+        <div id="ans0" class="ans">
+          <div id="ans-group">
+            <div class="input-wrapper">
+              <input required type="text" class="input" />
+              <label class="text">¡Respuesta!</label>
+              <span class="highlight"></span>
+              <span class="bar"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    <script src="main.js"></script>
+</body>
+</html>

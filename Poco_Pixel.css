@@ -1,0 +1,121 @@
+#logo {
+    display: none;
+}
+
+#logoimg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 162px;
+    height: 138px;
+    z-index: 2;
+    transform-origin: center center;
+}
+
+#background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw; /* full screen width */
+    height: 100vh; /* full screen height */
+    display: block;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background-color: white;
+}
+
+#userImage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    display: none;
+}
+
+#mini-pieces-container {
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+    gap: 1px;
+}
+
+#cc-container {
+    position: absolute;
+    top: 10%;
+    left: 0%;
+    width: 500px;
+    height: 700px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 10px;
+    z-index: 4;
+} 
+
+#ans-container {
+    position: absolute;
+    top: 10%;
+    left: 57.5%;
+    width: 600px;
+    height: 700px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 10px;
+    z-index: 4;
+}
+
+.piece-wrap {
+  position: absolute;
+  width: 60px; /* update based on piece size */
+  height: 60px;
+  overflow: hidden;
+  z-index: 4;
+}
+
+.black-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+  opacity: 1;
+  transition: opacity 1s ease;
+  z-index: 10;
+}
+
+#pageLink {
+    position: absolute;
+    top: 85%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    font-family: Roboto;
+    font-size: 16px;
+    text-decoration: none;
+    color: #0000EE;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+#sharePrompt {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    font-family: Roboto;
+    font-size: 24px;
+    color: white;
+}
