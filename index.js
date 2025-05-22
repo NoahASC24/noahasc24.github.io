@@ -185,7 +185,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.getElementById("example").click();
             });
         }
-    // Add error message elements for each input container
+        
     const ccContainer = document.getElementById("cc0");
     const ansContainer = document.getElementById("ans0");
     
@@ -285,11 +285,9 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         }
     
-    // Modify the finish button functionality
     const finishButton = document.getElementById("finish");
     if (finishButton) {
         finishButton.addEventListener("click", function() {
-            // Check if image is uploaded
             if (!imageUploaded) {
                 const imgStatus = document.getElementById("imgStatus");
                 if (imgStatus) {
@@ -300,48 +298,40 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
                 return;
             }
-            
-            // Check if all inputs are filled
+
             const ccDivs = document.querySelectorAll('.cc');
             const ansDivs = document.querySelectorAll('.ans');
             let allInputsFilled = true;
             
-            // Reset all error messages
             document.querySelectorAll('.error-message').forEach(msg => {
                 msg.style.opacity = "0";
             });
             
-            // Check question inputs
             ccDivs.forEach(div => {
                 const input = div.querySelector('input');
                 const errorMsg = div.querySelector('.error-message');
                 if (input && errorMsg && !input.value.trim()) {
                     errorMsg.style.opacity = "1";
                     allInputsFilled = false;
-                    // Auto-hide the error after 3 seconds
                     setTimeout(() => {
                         errorMsg.style.opacity = "0";
                     }, 3000);
                 }
             });
             
-            // Check answer inputs
             ansDivs.forEach(div => {
                 const input = div.querySelector('input');
                 const errorMsg = div.querySelector('.error-message');
                 if (input && errorMsg && !input.value.trim()) {
                     errorMsg.style.opacity = "1";
                     allInputsFilled = false;
-                    // Auto-hide the error after 3 seconds
                     setTimeout(() => {
                         errorMsg.style.opacity = "0";
                     }, 3000);
                 }
             });
-            
-            // If all inputs are filled and image is uploaded, proceed
+
             if (allInputsFilled && imageUploaded) {
-                // Store questions
                 const ccData = Array.from(ccDivs).map(div => {
                     const input = div.querySelector('input');
                     if (input) {
@@ -350,7 +340,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     return div.outerHTML;
                 });
 
-                // Store user answers
                 const ansData = Array.from(ansDivs).map(div => {
                     const input = div.querySelector('input');
                     if (input) {
@@ -359,20 +348,18 @@ document.addEventListener("DOMContentLoaded", function() {
                     return div.outerHTML;
                 });
 
-                // Initialize all pieces as hidden
-                const totalPieces = 25; // 5x5 grid
+                const totalPieces = 25;
                 const revealedState = Array(totalPieces).fill(false);
                 
                 localStorage.setItem('ccData', JSON.stringify(ccData));
                 localStorage.setItem('ansData', JSON.stringify(ansData));
                 localStorage.setItem('revealedState', JSON.stringify(revealedState));
-                window.location.href = "Poco_Pixel.html";
+                window.location.href = "setup.html";
             }
         });
     }
 });
 
-    // Handle file input change
     if (fileInput) {
         fileInput.addEventListener("change", function(event) {
             const file = event.target.files[0];
@@ -380,7 +367,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
             const reader = new FileReader();
             reader.onload = function(e) {
-                // Save the image data to localStorage
                 localStorage.setItem("uploadedImage", e.target.result);
                 
                 const img = new Image();
@@ -397,21 +383,17 @@ function splitImage(img) {
     imageUploaded = true;
     const cols = 5;
     const rows = 5;
-    const borderWidth = 1; // Border width
+    const borderWidth = 1;
     
-    // Total available size for the puzzle
     const totalWidth = 300;
     const totalHeight = 300;
     
-    // Calculate the size of each cell including border
     const cellWidth = totalWidth / cols;
     const cellHeight = totalHeight / rows;
-    
-    // Calculate the actual size of each piece (excluding borders)
+
     const pieceWidth = cellWidth - borderWidth;
     const pieceHeight = cellHeight - borderWidth;
-    
-    // Create and set up the canvas for the original image
+
     const canvas = document.getElementById("canvas");
     if (!canvas) return;
     
@@ -420,8 +402,7 @@ function splitImage(img) {
     canvas.width = totalWidth;
     canvas.height = totalHeight;
     ctx.drawImage(img, 0, 0, totalWidth, totalHeight);
-    
-    // Set up the container for all pieces
+
     const piecesContainer = document.getElementById("mini-pieces-container");
     if (!piecesContainer) return;
     
@@ -437,14 +418,12 @@ function splitImage(img) {
     piecesContainer.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
     piecesContainer.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
     piecesContainer.style.gap = `${borderWidth}px`;
-    piecesContainer.style.backgroundColor = "white"; // Color for the borders/gaps
+    piecesContainer.style.backgroundColor = "white";
     piecesContainer.style.padding = "0";
     piecesContainer.style.boxSizing = "border-box";
     
-    // Create pieces
     for (let y = 0; y < rows; y++) {
         for (let x = 0; x < cols; x++) {
-            // Create wrapper for each piece
             const pieceWrapper = document.createElement("div");
             pieceWrapper.className = "piece-wrap";
             pieceWrapper.style.position = "relative";
@@ -453,14 +432,11 @@ function splitImage(img) {
             pieceWrapper.style.height = "100%";
             pieceWrapper.style.boxSizing = "border-box";
             
-            // Calculate source coordinates for the image slice
-            // These calculations ensure we get the right portion of the image
             const sourceX = Math.round(x * (totalWidth / cols));
             const sourceY = Math.round(y * (totalHeight / rows));
             const sourceWidth = Math.round((x + 1) * (totalWidth / cols) - sourceX);
             const sourceHeight = Math.round((y + 1) * (totalHeight / rows) - sourceY);
-            
-            // Create the canvas for the piece
+
             const pieceCanvas = document.createElement("canvas");
             pieceCanvas.width = sourceWidth;
             pieceCanvas.height = sourceHeight;
@@ -469,18 +445,16 @@ function splitImage(img) {
             pieceCanvas.style.width = "100%";
             pieceCanvas.style.height = "100%";
             pieceCanvas.style.zIndex = "3";
-            
-            // Draw the image slice onto the piece canvas
+
             const pieceCtx = pieceCanvas.getContext("2d");
             pieceCtx.drawImage(
                 canvas,
-                sourceX, sourceY,         // Source X, Y
-                sourceWidth, sourceHeight, // Source width, height
-                0, 0,                     // Destination X, Y
-                sourceWidth, sourceHeight  // Destination width, height
+                sourceX, sourceY,
+                sourceWidth, sourceHeight,
+                0, 0,
+                sourceWidth, sourceHeight
             );
             
-            // Create the black overlay (initially transparent)
             const blackOverlay = document.createElement("div");
             blackOverlay.className = "black-overlay";
             blackOverlay.style.position = "absolute";
@@ -489,11 +463,10 @@ function splitImage(img) {
             blackOverlay.style.width = "100%";
             blackOverlay.style.height = "100%";
             blackOverlay.style.backgroundColor = "black";
-            blackOverlay.style.opacity = "0"; // Show the image pieces in the creation page
+            blackOverlay.style.opacity = "0";
             blackOverlay.style.transition = "opacity 1s ease";
             blackOverlay.style.zIndex = "10";
             
-            // Add pieces to wrapper and wrapper to container
             pieceWrapper.appendChild(pieceCanvas);
             pieceWrapper.appendChild(blackOverlay);
             piecesContainer.appendChild(pieceWrapper);
