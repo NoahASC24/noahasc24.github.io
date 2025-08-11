@@ -896,20 +896,13 @@
                         const totalPieces = 25;
                         const revealedState = Array(totalPieces).fill(false);
                         
-                        // Store data in variables instead of localStorage for demo
-                        window.gameData = {
-                            ccData: ccData,
-                            ansData: ansData,
-                            revealedState: revealedState,
-                            uploadedImage: document.getElementById("canvas").toDataURL()
-
-                            localStorage.setItem('ccData', JSON.stringify(ccData));
-                            localStorage.setItem('ansData', JSON.stringify(ansData));
-                            localStorage.setItem('revealedState', JSON.stringify(revealedState));
-                            window.location.href = "Poco_Pixel.html";
-                        };
+                        localStorage.setItem('ccData', JSON.stringify(ccData));
+                        localStorage.setItem('ansData', JSON.stringify(ansData));
+                        localStorage.setItem('revealedState', JSON.stringify(revealedState));
+                        localStorage.setItem('uploadedImage', document.getElementById("canvas").toDataURL());
                         
-                        alert("Game data prepared! In a real implementation, this would navigate to Poco_Pixel.html");
+                        // Navigate to the game page
+                        window.location.href = "Poco_Pixel.html";
                     }
                 });
             }
@@ -923,7 +916,6 @@
 
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    localStorage.setItem("uploadedImage", e.target.result);
                     const img = new Image();
                     img.onload = function() {
                         splitImage(img);
