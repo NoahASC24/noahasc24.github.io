@@ -923,6 +923,7 @@
 
                 const reader = new FileReader();
                 reader.onload = function(e) {
+                    localStorage.setItem("uploadedImage", e.target.result);
                     const img = new Image();
                     img.onload = function() {
                         splitImage(img);
