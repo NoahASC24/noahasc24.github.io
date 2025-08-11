@@ -372,9 +372,9 @@
     </style>
 </head>
 <body>
-    <img id="logo" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjZmYwMDAwIi8+Cjx0ZXh0IHg9IjUwIiB5PSI1NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiIGZvbnQtc2l6ZT0iMjAiPkxPR088L3RleHQ+Cjwvc3ZnPg==" alt="logo">
-    <img id="background" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjZmYwMDAwIi8+Cjx0ZXh0IHg9IjUwIiB5PSI1NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiIGZvbnQtc2l6ZT0iMjAiPkJHPC90ZXh0Pgo8L3N2Zz4=" style="opacity: 0;" alt="background">
-    <img id="logoimg" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjMDA4OGZmIi8+Cjx0ZXh0IHg9IjUwIiB5PSI1NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiIGZvbnQtc2l6ZT0iMTYiPklNRzwvdGV4dD4KPC9zdmc+" style="opacity: 0;" alt="logoimg">
+    <img id="logo" src="Images/h (50).png" alt="logo">
+    <img id="background" src="Images/h (50).png" style="opacity: 0;" alt="background">
+    <img id="logoimg" src="Images/image-removebg-preview (3).png" style="opacity: 0;" alt="logoimg">
     <canvas id="canvas"></canvas>
     <div id="pieces-container"></div>
     <div id="mini-pieces-container"></div>
@@ -902,6 +902,11 @@
                             ansData: ansData,
                             revealedState: revealedState,
                             uploadedImage: document.getElementById("canvas").toDataURL()
+
+                            localStorage.setItem('ccData', JSON.stringify(ccData));
+                            localStorage.setItem('ansData', JSON.stringify(ansData));
+                            localStorage.setItem('revealedState', JSON.stringify(revealedState));
+                            window.location.href = "Poco_Pixel.html";
                         };
                         
                         alert("Game data prepared! In a real implementation, this would navigate to Poco_Pixel.html");
