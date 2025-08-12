@@ -176,7 +176,15 @@
             }
         }
 
-        /* Input styling for questions and answers */
+        /* Fixed input and label styling */
+        .cc, .ans {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
         .cc input, .ans input {
             width: 100% !important;
             max-width: min(350px, 90%);
@@ -184,14 +192,18 @@
             font-size: clamp(14px, 3vw, 18px);
             box-sizing: border-box;
             transform: none !important;
+            margin-top: 5px;
         }
+        
         .cc label, .ans label {
             font-size: clamp(14px, 3vw, 18px) !important;
             transform: none !important;
             position: relative !important;
             margin-bottom: 5px;
             display: block;
-            text-align: center; /* This centers the label text */
+            text-align: center;
+            width: 100%;
+            max-width: min(350px, 90%);
         }
     </style>
 </head>
@@ -307,18 +319,20 @@
             ccContainer.style.opacity = "1";
             ccContainer.style.display = "flex";
             ccContainer.style.flexDirection = "column";
-            ccContainer.style.alignItems = "flex-start";
+            ccContainer.style.alignItems = "center";
             
             ansContainer.style.opacity = "1";
             ansContainer.style.display = "flex";
             ansContainer.style.flexDirection = "column";
-            ansContainer.style.alignItems = "flex-start";
+            ansContainer.style.alignItems = "center";
             
             const ccElements = document.querySelectorAll('.cc');
             
             ccElements.forEach(element => {
                 element.style.opacity = "1";
-                element.style.display = "block";
+                element.style.display = "flex";
+                element.style.flexDirection = "column";
+                element.style.alignItems = "center";
                 element.style.zIndex = "4";
 
                 const input = element.querySelector("input");
@@ -327,7 +341,6 @@
                     input.style.backgroundColor = "#260e9d51";
                     input.style.border = "1px solid white";
                     input.style.borderRadius = "10px";
-                    input.style.marginTop = "10px";
                     input.style.color = "white";
                 }
 
@@ -343,7 +356,9 @@
             
             ansElements.forEach(element => {
                 element.style.opacity = "1";
-                element.style.display = "block";
+                element.style.display = "flex";
+                element.style.flexDirection = "column";
+                element.style.alignItems = "center";
                 element.style.zIndex = "4";
                 
                 const input = element.querySelector('input');
@@ -351,7 +366,6 @@
                     input.style.background = "transparent";
                     input.style.border = "none";
                     input.style.borderBottom = "1px solid #515151";
-                    input.style.marginTop = "10px";
                     input.style.color = "white";
                     if (!input.hasAttribute('data-answer')) {
                         input.setAttribute('data-answer', input.value);
