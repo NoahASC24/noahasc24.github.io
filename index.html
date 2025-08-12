@@ -456,7 +456,6 @@
             });
         }
 
-        // Animation functions
         function moveImg() {
             const logoimg = document.getElementById("logoimg");
             const isMobile = window.innerWidth <= 768;
@@ -480,24 +479,19 @@
             setTimeout(moveImg, 2000);
             setTimeout(showButton, 2500);
         }
-
-        // Image processing functions
+        
         function createboxes() {
             const isMobile = window.innerWidth <= 768;
             const cols = isMobile ? 8 : 12;
             const rows = isMobile ? 5 : 7;
-            const overlap = 1;
-
+            
             const img = document.getElementById("logo");
-
+        
             if (!img.complete || img.naturalWidth === 0) {
                 img.onload = createboxes;
                 return;
             }
-
-            const pieceWidth = window.innerWidth / cols;
-            const pieceHeight = window.innerHeight / rows;
-
+        
             const piecesContainer = document.getElementById("pieces-container");
             piecesContainer.innerHTML = "";
             piecesContainer.style.position = "absolute";
@@ -506,26 +500,29 @@
             piecesContainer.style.width = "100vw";
             piecesContainer.style.height = "100vh";
             piecesContainer.style.overflow = "hidden";
-
+            piecesContainer.style.display = "grid";
+            piecesContainer.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+            piecesContainer.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+        
             let totalPieces = cols * rows;
             let piecesFadedIn = 0;
-
+        
             for (let y = 0; y < rows; y++) {
                 for (let x = 0; x < cols; x++) {
                     const pieceCanvas = document.createElement("canvas");
-                    pieceCanvas.width = pieceWidth + overlap;
-                    pieceCanvas.height = pieceHeight + overlap;
-                    pieceCanvas.style.position = "absolute";
-                    pieceCanvas.style.left = `${x * pieceWidth - overlap / 2}px`;
-                    pieceCanvas.style.top = `${y * pieceHeight - overlap / 2}px`;
-
+                    
+                    pieceCanvas.style.width = "100%";
+                    pieceCanvas.style.height = "100%";
+                    pieceCanvas.style.display = "block";
+        
                     const pieceCtx = pieceCanvas.getContext("2d");
-
                     const scale = window.devicePixelRatio || 1;
-                    pieceCanvas.width = pieceWidth * scale;
-                    pieceCanvas.height = pieceHeight * scale;
-                    pieceCanvas.style.width = `${pieceWidth}px`;
-                    pieceCanvas.style.height = `${pieceHeight}px`;
+                    
+                    const actualWidth = window.innerWidth / cols;
+                    const actualHeight = window.innerHeight / rows;
+                    
+                    pieceCanvas.width = actualWidth * scale;
+                    pieceCanvas.height = actualHeight * scale;
                     pieceCtx.scale(scale, scale);
 
                     pieceCtx.drawImage(
@@ -536,16 +533,16 @@
                         img.naturalHeight / rows,
                         0,
                         0,
-                        pieceWidth + overlap,
-                        pieceHeight + overlap
+                        actualWidth,
+                        actualHeight
                     );
-
+        
                     pieceCanvas.classList.add("pieceBig");
                     pieceCanvas.style.opacity = 0;
                     piecesContainer.appendChild(pieceCanvas);
-
+        
                     const delay = (x + y) * (isMobile ? 150 : 200);
-
+        
                     fadeIn(pieceCanvas, 1000, delay, () => {
                         piecesFadedIn++;
                         if (piecesFadedIn === totalPieces) {
