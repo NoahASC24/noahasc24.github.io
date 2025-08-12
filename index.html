@@ -405,7 +405,7 @@
         const finishButton = document.getElementById("finish");
         let imageUploaded = false;
         var i = 0;
-        let offset = 1.5;
+        let offset = 1;
         const spacing = 20;
 
         // Utility functions
@@ -776,10 +776,10 @@
                     }
 
                     offset += spacing;
-                    dupe.style.top = `calc(${offset - 10}vh)`;
-                    dupe2.style.top = `${offset}vh`;
-                    appendButton.style.top = `${offset + 10}vh`;
-                    finish.style.top = `${offset + 20}vh`;
+                    dupe.style.top = `calc(${offset}vh)`;
+                    dupe2.style.top = `${offset + 10}vh`;
+                    appendButton.style.top = `${offset + 20}vh`;
+                    finish.style.top = `${offset + 30}vh`;
 
                     container.appendChild(dupe);
                     container.appendChild(dupe2);
