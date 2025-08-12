@@ -288,17 +288,6 @@
             font-size: clamp(12px, 2.5vw, 14px) !important;
         }
 
-        /* Canvas styles */
-        #canvas {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            max-width: 90vw;
-            max-height: 90vh;
-            z-index: 1;
-        }
-
         /* Group containers */
         #group, #ans-group {
             position: relative;
@@ -589,7 +578,7 @@
             const ctx = canvas.getContext("2d");
             canvas.width = totalWidth;
             canvas.height = totalHeight;
-            canvas.opacity = "0";
+            canvas.style.opacity = "0";
             ctx.drawImage(img, 0, 0, totalWidth, totalHeight);
 
             const piecesContainer = document.getElementById("mini-pieces-container");
