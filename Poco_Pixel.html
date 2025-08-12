@@ -287,7 +287,7 @@
         }
 
         function showImage() {
-            const imageData = sessionStorage.getItem("uploadedImage");
+            const imageData = localStorage.getItem("uploadedImage");
             const userImage = document.getElementById("userImage");
             
             if (!userImage) return;
@@ -447,13 +447,13 @@
                 overlays[index].style.opacity = '0';
                 overlays[index].style.zIndex = "4";
                 
-                const savedRevealedState = sessionStorage.getItem('revealedState');
+                const savedRevealedState = localStorage.getItem('revealedState');
                 if (savedRevealedState) {
                     try {
                         const revealedState = JSON.parse(savedRevealedState);
                         if (index < revealedState.length) {
                             revealedState[index] = true;
-                            sessionStorage.setItem('revealedState', JSON.stringify(revealedState));
+                            localStorage.setItem('revealedState', JSON.stringify(revealedState));
                         }
                     } catch (e) {
                         console.error("Error updating revealed state:", e);
@@ -517,7 +517,7 @@
             let allPieces = [];
 
             const revealedState = new Array(totalPieces).fill(false);
-            sessionStorage.setItem('revealedState', JSON.stringify(revealedState));
+            localStorage.setItem('revealedState', JSON.stringify(revealedState));
             
             for (let y = 0; y < rows; y++) {
                 for (let x = 0; x < cols; x++) {
@@ -757,8 +757,8 @@
 
         function loadSavedState() {
             console.log("Loading saved state...");
-            const savedCcData = sessionStorage.getItem('ccData');
-            const savedAnsData = sessionStorage.getItem('ansData');
+            const savedCcData = localStorage.getItem('ccData');
+            const savedAnsData = localStorage.getItem('ansData');
             const link = document.getElementById("pageLink");
             const shareText = document.getElementById("sharePrompt")
             shareText.style.opacity = 1;
@@ -787,7 +787,7 @@
                     
                     showQuestions();
                     
-                    const imageData = sessionStorage.getItem("uploadedImage");
+                    const imageData = localStorage.getItem("uploadedImage");
                     if (imageData) {
                         imageUploaded = true;
                         const userImage = document.getElementById("userImage");
@@ -809,13 +809,13 @@
         }
 
         function updateRevealedState(index, isRevealed) {
-            const savedRevealedState = sessionStorage.getItem('revealedState');
+            const savedRevealedState = localStorage.getItem('revealedState');
             if (savedRevealedState) {
                 try {
                     const revealedState = JSON.parse(savedRevealedState);
                     if (index < revealedState.length) {
                         revealedState[index] = isRevealed;
-                        sessionStorage.setItem('revealedState', JSON.stringify(revealedState));
+                        localStorage.setItem('revealedState', JSON.stringify(revealedState));
                     }
                 } catch (e) {
                     console.error("Error updating revealed state:", e);
@@ -824,7 +824,7 @@
         }
 
         function applyRevealedState() {
-            const savedRevealedState = sessionStorage.getItem('revealedState');
+            const savedRevealedState = localStorage.getItem('revealedState');
             if (savedRevealedState) {
                 try {
                     const revealedState = JSON.parse(savedRevealedState);
