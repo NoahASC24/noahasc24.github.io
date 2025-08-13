@@ -222,7 +222,6 @@
     
     <script>
         let imageUploaded = false;
-        const encoded = encodeURIComponent("myData");
         
         function getUniqueStorageKey(baseKey) {
             const urlParams = new URLSearchParams(window.location.search);
@@ -302,15 +301,6 @@
             pieces.forEach(piece => {
                 fadeOut(piece, duration);
             });
-        }
-
-        function createUrlWithRandomId(encoded) {
-            const randomId = Array.from({length: 10}, () => 
-            'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-            .charAt(Math.floor(Math.random() * 62))
-            ).join('');
-    
-            return `${location.origin}/view.html?data=${encoded}&id=${randomId}`;
         }
 
         function showImage() {
@@ -916,9 +906,8 @@
         document.addEventListener("DOMContentLoaded", () => {
             console.log("DOM loaded");
             const img = document.getElementById("logo");
-            const url = createUrlWithRandomId(encoded);
 
-            document.getElementById("pageLink").textContent = url;
+            document.getElementById("pageLink").textContent = "function getUniqueStorageKey(baseKey) { const urlParams = new URLSearchParams(window.location.search); const id = urlParams.get('id') || 'default'; const data = urlParams.get('data') || ''; const uniqueId = id + '_' + (data ? btoa(data).substring(0, 8) : 'nodata'); return baseKey + '_' + uniqueId; }";
             
             setTimeout(loadSavedState, 8000);
             
