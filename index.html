@@ -823,113 +823,117 @@
                 });
             }
 
-        const finishButton = document.getElementById("finish");
-        if (finishButton) {
-            finishButton.addEventListener("click", function() {
-                if (!imageUploaded) {
-                    const imgStatus = document.getElementById("imgStatus");
-                    if (imgStatus) {
-                        imgStatus.style.opacity = "1";
-                        setTimeout(() => {
-                            imgStatus.style.opacity = "0";
-                        }, 3000);
-                    }
-                    return;
-                }
-
-                const ccDivs = document.querySelectorAll('.cc');
-                const ansDivs = document.querySelectorAll('.ans');
-                let allInputsFilled = true;
-                
-                document.querySelectorAll('.error-message').forEach(msg => {
-                    msg.style.opacity = "0";
-                });
-                
-                ccDivs.forEach(div => {
-                    const input = div.querySelector('input');
-                    const errorMsg = div.querySelector('.error-message');
-                    if (input && errorMsg && !input.value.trim()) {
-                        errorMsg.style.opacity = "1";
-                        allInputsFilled = false;
-                        setTimeout(() => {
-                            errorMsg.style.opacity = "0";
-                        }, 3000);
-                    }
-                });
-                
-                ansDivs.forEach(div => {
-                    const input = div.querySelector('input');
-                    const errorMsg = div.querySelector('.error-message');
-                    if (input && errorMsg && !input.value.trim()) {
-                        errorMsg.style.opacity = "1";
-                        allInputsFilled = false;
-                        setTimeout(() => {
-                            errorMsg.style.opacity = "0";
-                        }, 3000);
-                    }
-                });
-
-                if (allInputsFilled && imageUploaded) {
-                    const ccData = Array.from(ccDivs).map(div => {
-                        const input = div.querySelector('input');
-                        if (input) {
-                            input.setAttribute('value', input.value);
+            const finishButton = document.getElementById("finish");
+            if (finishButton) {
+                finishButton.addEventListener("click", function() {
+                    if (!imageUploaded) {
+                        const imgStatus = document.getElementById("imgStatus");
+                        if (imgStatus) {
+                            imgStatus.style.opacity = "1";
+                            setTimeout(() => {
+                                imgStatus.style.opacity = "0";
+                            }, 3000);
                         }
-                        return div.outerHTML;
+                        return;
+                    }
+            
+                    const ccDivs = document.querySelectorAll('.cc');
+                    const ansDivs = document.querySelectorAll('.ans');
+                    let allInputsFilled = true;
+                    
+                    document.querySelectorAll('.error-message').forEach(msg => {
+                        msg.style.opacity = "0";
                     });
-
-                    const ansData = Array.from(ansDivs).map(div => {
+                    
+                    ccDivs.forEach(div => {
                         const input = div.querySelector('input');
-                        if (input) {
-                            input.setAttribute('value', input.value);
+                        const errorMsg = div.querySelector('.error-message');
+                        if (input && errorMsg && !input.value.trim()) {
+                            errorMsg.style.opacity = "1";
+                            allInputsFilled = false;
+                            setTimeout(() => {
+                                errorMsg.style.opacity = "0";
+                            }, 3000);
                         }
-                        return div.outerHTML;
                     });
-
-                    const totalPieces = 25;
-                    const revealedState = Array(totalPieces).fill(false);
                     
-                    // Create unique storage keys based on URL
-                    const currentUrl = new URL(window.location.href);
-                    const uniqueId = Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-                    
-                    // Store data with unique keys
-                    localStorage.setItem(getUniqueStorageKey('ccData'), JSON.stringify(ccData));
-                    localStorage.setItem(getUniqueStorageKey('ansData'), JSON.stringify(ansData));
-                    localStorage.setItem(getUniqueStorageKey('revealedState'), JSON.stringify(revealedState));
-                    localStorage.setItem(getUniqueStorageKey('uploadedImage'), document.getElementById("canvas").toDataURL());
-                    
-                    // Create URL with unique parameters
-                    const encoded = encodeURIComponent("myData");
-                    const randomId = Array.from({length: 10}, () => 
-                        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-                        .charAt(Math.floor(Math.random() * 62))
-                    ).join('');
-                    
-                    // Navigate to the game page with unique parameters
-                    window.location.href = `Poco_Pixel.html?data=${encoded}&id=${randomId}`;
-                }
-            });
-        }
+                    ansDivs.forEach(div => {
+                        const input = div.querySelector('input');
+                        const errorMsg = div.querySelector('.error-message');
+                        if (input && errorMsg && !input.value.trim()) {
+                            errorMsg.style.opacity = "1";
+                            allInputsFilled = false;
+                            setTimeout(() => {
+                                errorMsg.style.opacity = "0";
+                            }, 3000);
+                        }
+                    });
+            
+                    if (allInputsFilled && imageUploaded) {
+                        const ccData = Array.from(ccDivs).map(div => {
+                            const input = div.querySelector('input');
+                            if (input) {
+                                input.setAttribute('value', input.value);
+                            }
+                            return div.outerHTML;
+                        });
+            
+                        const ansData = Array.from(ansDivs).map(div => {
+                            const input = div.querySelector('input');
+                            if (input) {
+                                input.setAttribute('value', input.value);
+                            }
+                            return div.outerHTML;
+                        });
+            
+                        const totalPieces = 25;
+                        const revealedState = Array(totalPieces).fill(false);
+                        
+                        // Create URL parameters FIRST
+                        const encoded = encodeURIComponent("myData");
+                        const randomId = Array.from({length: 10}, () => 
+                            'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+                            .charAt(Math.floor(Math.random() * 62))
+                        ).join('');
+            
+                        // Function to generate keys for the destination URL
+                        function getDestinationStorageKey(baseKey) {
+                            const data = 'myData';
+                            const id = randomId;
+                            const uniqueId = id + '_' + btoa(data).substring(0, 8);
+                            return baseKey + '_' + uniqueId;
+                        }
+            
+                        // Store data with the correct keys that match the destination URL
+                        localStorage.setItem(getDestinationStorageKey('ccData'), JSON.stringify(ccData));
+                        localStorage.setItem(getDestinationStorageKey('ansData'), JSON.stringify(ansData));
+                        localStorage.setItem(getDestinationStorageKey('revealedState'), JSON.stringify(revealedState));
+                        localStorage.setItem(getDestinationStorageKey('uploadedImage'), document.getElementById("canvas").toDataURL());
+                        
+                        // Navigate to the game page with matching parameters
+                        window.location.href = `Poco_Pixel.html?data=${encoded}&id=${randomId}`;
+                    }
+                });
+            }
 
         // File input event listener
-        if (fileInput) {
-            fileInput.addEventListener("change", function(event) {
-                const file = event.target.files[0];
-                if (!file) return;
-
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = new Image();
-                    img.onload = function() {
-                        splitImage(img);
+            if (fileInput) {
+                fileInput.addEventListener("change", function(event) {
+                    const file = event.target.files[0];
+                    if (!file) return;
+    
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = new Image();
+                        img.onload = function() {
+                            splitImage(img);
+                        };
+                        img.src = e.target.result;
                     };
-                    img.src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            });
-        }
-    });
+                    reader.readAsDataURL(file);
+                });
+            }
+        });
 
         // Handle orientation changes
         window.addEventListener("orientationchange", function() {
