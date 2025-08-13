@@ -408,7 +408,15 @@
         let offset = 0;
         const spacing = 20;
 
-        // Utility functions
+        function getUniqueStorageKey(baseKey) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id') || 'default';
+            const data = urlParams.get('data') || '';
+            // Create a unique identifier from URL parameters
+            const uniqueId = id + '_' + (data ? btoa(data).substring(0, 8) : 'nodata');
+            return baseKey + '_' + uniqueId;
+        }
+        
         function fadeIn(element, duration = 1000, delay = 0, callback = null) {
             element.style.opacity = 0;
             element.style.display = "block";
