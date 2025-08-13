@@ -223,9 +223,6 @@
     <script>
         let imageUploaded = false;
         const encoded = encodeURIComponent("myData");
-        const url = `${location.origin}/view.html?data=${encoded}`;
-
-        document.getElementById("pageLink").textContent = url;
 
         function moveImg() {
             const logo = document.getElementById("logoimg");
@@ -296,6 +293,15 @@
             pieces.forEach(piece => {
                 fadeOut(piece, duration);
             });
+        }
+
+        function createUrlWithRandomId(encoded) {
+            const randomId = Array.from({length: 10}, () => 
+            'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+            .charAt(Math.floor(Math.random() * 62))
+            ).join('');
+    
+            return `${location.origin}/view.html?data=${encoded}&id=${randomId}`;
         }
 
         function showImage() {
@@ -901,6 +907,9 @@
         document.addEventListener("DOMContentLoaded", () => {
             console.log("DOM loaded");
             const img = document.getElementById("logo");
+            const url = createUrlWithRandomId(encoded);
+
+            document.getElementById("pageLink").textContent = url;
             
             setTimeout(loadSavedState, 8000);
             
