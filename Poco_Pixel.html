@@ -907,7 +907,7 @@
             console.log("DOM loaded");
             const img = document.getElementById("logo");
 
-            document.getElementById("pageLink").textContent = window.location.origin + window.location.pathname + '?uniqueId=' + getUniqueId();
+            document.getElementById("pageLink").textContent = window.location.href;
             
             setTimeout(loadSavedState, 8000);
             
